@@ -29,11 +29,11 @@ DEFAULT_DATA_QUALITY_RULESET = """
 # Script generated for node Customer Trusted
 CustomerTrusted_node1768118291538 = glueContext.create_dynamic_frame.from_catalog(database="stedi", table_name="customer_trusted", transformation_ctx="CustomerTrusted_node1768118291538")
 
-# Script generated for node Accelerometer Landing
-AccelerometerLanding_node1768118337316 = glueContext.create_dynamic_frame.from_catalog(database="stedi", table_name="accelerometer_landing", transformation_ctx="AccelerometerLanding_node1768118337316")
+# Script generated for node Accelerometer Trusted
+AccelerometerTrusted_node1768118337316 = glueContext.create_dynamic_frame.from_catalog(database="stedi", table_name="accelerometer_trusted", transformation_ctx="AccelerometerTrusted_node1768118337316")
 
 # Script generated for node Filter Customer Trusted only with Accelerometers
-SqlQuery1021 = '''
+SqlQuery908 = '''
 SELECT c.*
 FROM customer c
 JOIN (
@@ -42,7 +42,7 @@ JOIN (
 ) a
 ON c.email = a.user;
 '''
-FilterCustomerTrustedonlywithAccelerometers_node1768118385129 = sparkSqlQuery(glueContext, query = SqlQuery1021, mapping = {"accelerometer":AccelerometerLanding_node1768118337316, "customer":CustomerTrusted_node1768118291538}, transformation_ctx = "FilterCustomerTrustedonlywithAccelerometers_node1768118385129")
+FilterCustomerTrustedonlywithAccelerometers_node1768118385129 = sparkSqlQuery(glueContext, query = SqlQuery908, mapping = {"accelerometer":AccelerometerTrusted_node1768118337316, "customer":CustomerTrusted_node1768118291538}, transformation_ctx = "FilterCustomerTrustedonlywithAccelerometers_node1768118385129")
 
 # Script generated for node Customer curated
 EvaluateDataQuality().process_rows(frame=FilterCustomerTrustedonlywithAccelerometers_node1768118385129, ruleset=DEFAULT_DATA_QUALITY_RULESET, publishing_options={"dataQualityEvaluationContext": "EvaluateDataQuality_node1768118262478", "enableDataQualityResultsPublishing": True}, additional_options={"dataQualityResultsPublishing.strategy": "BEST_EFFORT", "observations.scope": "ALL"})
